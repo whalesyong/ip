@@ -8,6 +8,8 @@
 /build/
 src/main/resources/docs/
 
+# any .class files
+out/production/ip/*.class
 # MacOS custom attributes files created by Finder
 .DS_Store
 *.iml
