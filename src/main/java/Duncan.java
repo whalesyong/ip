@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Duncan {
-    public static void printHorizontalLine(){
+    public static void printHorizontalLine() {
         System.out.println("____________________________________________________________");
     }
 
@@ -22,14 +22,30 @@ public class Duncan {
         String userInput;
         List taskList = new List();
 
-        while (true){
+        while (true) {
             userInput = scanner.nextLine().trim();
             printHorizontalLine();
 
-            if (userInput.equalsIgnoreCase("bye")){
+            if (userInput.equalsIgnoreCase("bye")) {
                 break;
             } else if (userInput.equalsIgnoreCase("list")) {
                 taskList.showTasks();
+            } else if (userInput.startsWith("mark ")) {
+
+
+                try {
+                    int taskNumber = Integer.parseInt(userInput.substring(5));
+                    taskList.markTask(taskNumber);
+                } catch (NumberFormatException e) {
+                    System.out.println("Please provide a valid task number!");
+                }
+            } else if (userInput.startsWith("unmark ")) {
+                try {
+                    int taskNumber = Integer.parseInt(userInput.substring(7));
+                    taskList.unmarkTask(taskNumber);
+                } catch (NumberFormatException e) {
+                    System.out.println("Please provide a valid task number!");
+                }
             } else {
                 taskList.addTask(userInput);
             }
