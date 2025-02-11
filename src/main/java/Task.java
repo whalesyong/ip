@@ -1,9 +1,11 @@
+import java.util.Arrays;
 class Task {
-    private String description;
+    protected String description;
     private boolean isDone;
-
+    public String taskLetter = "[T]";
     public Task(String description) {
-        this.description = description;
+        String[] words = description.split(" ");
+        this.description = String.join(" ",Arrays.copyOfRange(words, 1, words.length) );
         this.isDone = false;
     }
 
@@ -19,6 +21,6 @@ class Task {
 
     @Override
     public String toString() {
-        return getStatusIcon() + " " + description;
+        return taskLetter + getStatusIcon() + " " + description;
     }
 }

@@ -11,8 +11,11 @@ public class InputParser {
     final Map<String, Integer> keywordLengthDict = Map.of(
             "bye", 3,
             "list", 4,
-            "mark", 4,
-            "unmark", 6
+            "mark", 5,
+            "unmark", 7,
+            "todo", 5,
+            "deadline", 9,
+            "event", 6
     );
 
     public String userInput;
@@ -34,7 +37,6 @@ public class InputParser {
             TextUI.printHorizontalLine();
             String firstWord = userInput.split(" ")[0];
 
-
             switch (firstWord) {
             case "bye":
                 isRunning = false;
@@ -48,7 +50,7 @@ public class InputParser {
                     int taskNumber = Integer.parseInt(userInput.substring(keywordLengthDict.get(firstWord)));
                     taskList.markTask(taskNumber);
                 } catch (NumberFormatException e) {
-                    System.out.println("Please provide a valid task number!");
+                    System.out.println("Please provide a valid task number!" + e.getMessage());
                 }
                 break;
             case "unmark":
@@ -60,8 +62,33 @@ public class InputParser {
                 }
 
                 break;
+            case "todo":
+                try{
+                    taskList.addTask(userInput);
+                    System.out.println("You have " + taskList.size() + " tasks.");
+                } catch (NumberFormatException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
+                break;
+            case "deadline":
+                try{
+                    taskList.addDeadline(userInput);
+                    System.out.println("You have " + taskList.size() + " tasks.");
+                } catch (NumberFormatException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
+                break;
+            case "event":
+                try{
+                    taskList.addEvent(userInput);
+                    System.out.println("You have " + taskList.size() + " tasks.");
+                } catch (NumberFormatException e) {
+                    System.out.println("Something went wrong: " + e.getMessage());
+                }
+                break;
             default:
-                taskList.addTask(userInput);
+                // not a valid input.
+                System.out.println("what are u saying bro");
 
             }
         }

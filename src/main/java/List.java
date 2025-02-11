@@ -7,8 +7,21 @@ class List {
         tasks = new ArrayList<>();
     }
 
+    public int size() {
+        return tasks.size();
+    }
     public void addTask(String description) {
         tasks.add(new Task(description));
+        System.out.println("added: " + description);
+    }
+
+    public void addDeadline(String description){
+        tasks.add(new Deadline(description));
+        System.out.println("added: " + description);
+    }
+
+    public void addEvent(String description) {
+        tasks.add(new Event(description));
         System.out.println("added: " + description);
     }
 
@@ -21,6 +34,7 @@ class List {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
         }
+        //System.out.println("size of list: " + tasks.size());
     }
 
     public void markTask(int index) {
