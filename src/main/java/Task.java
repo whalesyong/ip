@@ -11,13 +11,11 @@ class Task {
         return isDone ? "[X]" : "[ ]";
     }
 
-    public void markAsDone() {
-        isDone = true;
+    public void setDone(boolean done) {
+        isDone = done;
     }
 
-    public void markAsUndone() {
-        isDone = false;
-    }
+
 
     @Override
     public String toString() {

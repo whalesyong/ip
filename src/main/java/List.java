@@ -25,7 +25,7 @@ class List {
 
     public void markTask(int index) {
         if (isValidIndex(index)) {
-            tasks.get(index - 1).markAsDone();
+            tasks.get(index - 1).setDone(true);
             System.out.println("Nice! I've marked this task as done: " + tasks.get(index - 1));
         } else {
             System.out.println("Invalid task number!");
@@ -34,7 +34,7 @@ class List {
 
     public void unmarkTask(int index) {
         if (isValidIndex(index)) {
-            tasks.get(index - 1).markAsUndone();
+            tasks.get(index - 1).setDone(false);
             System.out.println("OK, I've marked this task as not done yet: " + tasks.get(index - 1));
         } else {
             System.out.println("Invalid task number!");
