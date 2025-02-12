@@ -1,5 +1,5 @@
 public class Deadline extends Task{
-    public String taskLetter = "[D]";
+    public static String taskLetter = "[D]";
     public String by;
     protected String description;
     //TODO: remove the /by part from the description
@@ -9,11 +9,11 @@ public class Deadline extends Task{
         if (parts.length > 1){
             by = parts[1].trim();
         }
-        this.description = parts[0];
+        this.description = parts[0].split(" ", 2)[1].trim();
     }
 
     @Override
     public String toString() {
-        return taskLetter + super.getStatusIcon() + " " + this.description + "(by: " + by+")" ;
+        return taskLetter + super.getStatusIcon() + " " + this.description + " (by: " + by+")" ;
     }
 }

@@ -2,7 +2,7 @@ import java.util.Arrays;
 class Task {
     protected String description;
     private boolean isDone;
-    public String taskLetter = "[T]";
+    public static String taskLetter = "[T]";
     public Task(String description) {
         String[] words = description.split(" ");
         this.description = String.join(" ",Arrays.copyOfRange(words, 1, words.length) );

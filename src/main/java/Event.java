@@ -2,7 +2,7 @@ public class Event extends Task {
     String from;
     String to;
 
-    public String taskLetter = "[E]";
+    public static String taskLetter = "[E]";
     protected String description;
     //TODO: remove /from and /by parts from description.
     public Event(String description) {
@@ -14,6 +14,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return taskLetter + super.getStatusIcon() + " " + this.description + "(from: " + from + " to: " + to + ")";
+        return taskLetter + super.getStatusIcon() + " " + this.description + " (from: " + from + " to: " + to + ")";
     }
 }

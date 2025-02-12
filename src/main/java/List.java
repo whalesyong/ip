@@ -11,18 +11,21 @@ class List {
         return tasks.size();
     }
     public void addTask(String description) {
-        tasks.add(new Task(description));
-        System.out.println("added: " + description);
+        Task newTask = new Task(description);
+        tasks.add(newTask);
+        System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + " " + newTask.description );
     }
 
     public void addDeadline(String description){
-        tasks.add(new Deadline(description));
-        System.out.println("added: " + description);
+        Deadline newDeadline = new Deadline(description);
+        tasks.add(newDeadline);
+        System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + " " + newDeadline.description );
     }
 
     public void addEvent(String description) {
-        tasks.add(new Event(description));
-        System.out.println("added: " + description);
+        Event newEvent = new Event(description);
+        tasks.add(newEvent);
+        System.out.println("Okie, I've added this task: \n" + Event.taskLetter + " " + newEvent.description ) ;
     }
 
     public void showTasks() {
