@@ -25,9 +25,7 @@ public class InputParser {
         this.scanner = scanner;
     }
 
-
-
-    public void startQueryLoop(){
+    public void startQueryLoop() throws DuncanException {
 
         boolean isRunning = true;
         while (isRunning) {
@@ -64,10 +62,12 @@ public class InputParser {
                 break;
             case "todo":
                 try{
-                    taskList.addTask(userInput);
+                    taskList.addTodo(userInput);
                     System.out.println("You have " + taskList.size() + " tasks.");
                 } catch (NumberFormatException e) {
                     System.out.println("Something went wrong: " + e.getMessage());
+                } catch (DuncanException e) {
+
                 }
                 break;
             case "deadline":
@@ -76,6 +76,8 @@ public class InputParser {
                     System.out.println("You have " + taskList.size() + " tasks.");
                 } catch (NumberFormatException e) {
                     System.out.println("Something went wrong: " + e.getMessage());
+                } catch (DuncanException e) {
+                    System.out.println(e.message);
                 }
                 break;
             case "event":
@@ -84,6 +86,8 @@ public class InputParser {
                     System.out.println("You have " + taskList.size() + " tasks.");
                 } catch (NumberFormatException e) {
                     System.out.println("Something went wrong: " + e.getMessage());
+                } catch (DuncanException e){
+                    System.out.println( e.message);
                 }
                 break;
             default:

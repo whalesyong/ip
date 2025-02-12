@@ -1,12 +1,13 @@
 import java.util.Arrays;
+
+// super class for different tasks
 class Task {
     protected String description;
-    private boolean isDone;
-    public static String taskLetter = "[T]";
-    public Task(String description) {
-        String[] words = description.split(" ");
-        this.description = String.join(" ",Arrays.copyOfRange(words, 1, words.length) );
-        this.isDone = false;
+    private boolean isDone = false;
+
+    public Task(String description) throws DuncanException {
+
+        this.description = description;
     }
 
     public String getStatusIcon() {
@@ -19,8 +20,5 @@ class Task {
 
 
 
-    @Override
-    public String toString() {
-        return taskLetter + getStatusIcon() + " " + description;
-    }
+
 }

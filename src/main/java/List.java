@@ -10,19 +10,19 @@ class List {
     public int size() {
         return tasks.size();
     }
-    public void addTask(String description) {
-        Task newTask = new Task(description);
+    public void addTodo(String description) throws DuncanException {
+        Todo newTask = new Todo(description);
         tasks.add(newTask);
         System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + " " + newTask.description );
     }
 
-    public void addDeadline(String description){
+    public void addDeadline(String description) throws DuncanException {
         Deadline newDeadline = new Deadline(description);
         tasks.add(newDeadline);
-        System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + " " + newDeadline.description );
+        System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + newDeadline.getStatusIcon() + " "+ newDeadline.description );
     }
 
-    public void addEvent(String description) {
+    public void addEvent(String description) throws DuncanException {
         Event newEvent = new Event(description);
         tasks.add(newEvent);
         System.out.println("Okie, I've added this task: \n" + Event.taskLetter + " " + newEvent.description ) ;
@@ -43,7 +43,7 @@ class List {
     public void markTask(int index) {
         if (isValidIndex(index)) {
             tasks.get(index - 1).setDone(true);
-            System.out.println("Nice! I've marked this task as done: " + tasks.get(index - 1));
+            System.out.println("Nice! I've marked this task as done: \n" + tasks.get(index - 1));
         } else {
             System.out.println("Invalid task number!");
         }
