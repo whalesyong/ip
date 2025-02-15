@@ -15,7 +15,8 @@ public class InputParser {
             "unmark", 7,
             "todo", 5,
             "deadline", 9,
-            "event", 6
+            "event", 6,
+            "delete", 7
     );
 
     public String userInput;
@@ -41,6 +42,14 @@ public class InputParser {
                 break;
             case "list":
                 taskList.showTasks();
+                break;
+            case "delete":
+                try{
+                    int taskNumber = Integer.parseInt(userInput.substring(keywordLengthDict.get(firstWord)));
+                    taskList.deleteTask(taskNumber);
+                } catch (NumberFormatException e) {
+                    System.out.println("Please provide a valid task number!");
+                }
                 break;
             case "mark":
                 // mark a task as done!
