@@ -58,6 +58,16 @@ class List {
         }
     }
 
+    public void deleteTask(int index){
+        if (isValidIndex(index)){
+            System.out.println("Okie, I've deleted this task: \n" + tasks.get(index-1));
+            tasks.remove(index-1);
+
+        } else {
+            System.out.println("Invalid task number!");
+        }
+    }
+
     private boolean isValidIndex(int index) {
         return index > 0 && index <= tasks.size();
     }
