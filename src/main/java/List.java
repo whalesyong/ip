@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class List {
+public class List {
     private ArrayList<Task> tasks;
 
     public List() {
@@ -10,23 +10,50 @@ class List {
     public int size() {
         return tasks.size();
     }
-    public void addTodo(String description) throws DuncanException {
-        Todo newTask = new Todo(description);
-        tasks.add(newTask);
-        System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + " " + newTask.description );
+
+    //initialising task with taskLetter
+    public void addTask(String description, String taskLetter) throws DuncanException {
+        Task newTask = null;
+        switch (taskLetter) {
+        case "T":
+            // create a todo task
+            newTask = new Todo(description);
+            tasks.add(newTask);
+            break;
+        case "D":
+            //create a deadline
+            newTask = new Deadline(description);
+            tasks.add(newTask);
+            break;
+        case "E":
+            //create an event
+            newTask = new Event(description);
+            tasks.add(newTask);
+            break;
+        default:
+            throw new DuncanException("Invalid task letter");
+        }
+        //print confirmation message
+        System.out.println(
+                "You have an extra thing to do now: \n"
+                + newTask.taskLetter
+                + newTask.getStatusIcon()
+                + newTask.description
+                + ((newTask instanceof Deadline)
+                        ? " (" + ((Deadline) newTask).by + ")"
+                        : ""
+                )
+                + ((newTask instanceof Event)
+                        ? " ( " + ((Event) newTask).from + " to " + ((Event) newTask).to + ")"
+                        : ""
+                )
+        );
     }
 
-    public void addDeadline(String description) throws DuncanException {
-        Deadline newDeadline = new Deadline(description);
-        tasks.add(newDeadline);
-        System.out.println("Okie, I've added this task: \n" + Deadline.taskLetter + newDeadline.getStatusIcon() + " "+ newDeadline.description );
+    public void addTask(Task task) throws DuncanException {
+        tasks.add(task);
     }
 
-    public void addEvent(String description) throws DuncanException {
-        Event newEvent = new Event(description);
-        tasks.add(newEvent);
-        System.out.println("Okie, I've added this task: \n" + Event.taskLetter + " " + newEvent.description ) ;
-    }
 
     public void showTasks() {
         if (tasks.isEmpty()) {
@@ -60,5 +87,9 @@ class List {
 
     private boolean isValidIndex(int index) {
         return index > 0 && index <= tasks.size();
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }

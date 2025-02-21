@@ -1,14 +1,27 @@
 public class Todo extends Task {
-    public static String taskLetter = "[T]";
-    protected String description;
 
+    // Constructor with only description
     public Todo(String description) throws DuncanException {
+
         super(description);
-        String[] words = description.split(" ", 2);
-        if (words.length <= 1) {
+        super.taskLetter = "[T]";
+        super.description = validateDescription(description);
+    }
+
+    // Constructor with description and isDone
+    public Todo(String description, boolean isDone) throws DuncanException {
+        super(description);
+        super.taskLetter = "[T]";
+        super.description = validateDescription(description);
+        super.isDone = isDone; // Set completion status
+    }
+
+    // Validates the description
+    private String validateDescription(String description) throws DuncanException {
+        if (description == null || description.trim().isEmpty()) {
             throw new DuncanException("Usage: todo <task description>");
         }
-        this.description = words[1];
+        return description.trim();
     }
 
     @Override
