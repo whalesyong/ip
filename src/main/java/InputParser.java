@@ -1,14 +1,16 @@
 import java.util.Map;
 import java.util.Scanner;
+import java.io.*;
 
 public class InputParser {
     /*
     * Input Parser class for Duncan. Takes in a scanner, and continuously
     * asks user for input.
     * */
-
+//-------- attributes ---------------------------
     //Maps keywords to their associated length
-    final Map<String, Integer> keywordLengthDict = Map.of(
+    final Map<String, Integer> KEYWORD_LENGTH_DICT
+            = Map.of(
             "bye", 3,
             "list", 4,
             "mark", 5,
@@ -21,9 +23,41 @@ public class InputParser {
 
     public String userInput;
     Scanner scanner;
-    List taskList = new List();
+    List taskList;
+    TextFileSaver fileSaver;
+//-------- constructor  ---------------------------
+
     public InputParser(Scanner scanner) {
         this.scanner = scanner;
+
+        //check if data file exists
+        File dataFile = new File("./data/duncan.txt");
+        fileSaver = new TextFileSaver();
+        if (dataFile.exists()) {
+            try{
+                taskList = fileSaver.readTextFile();
+
+            } catch (DuncanException e) {
+                System.out.println("Error reading duncan.txt, please check the file!! Error: " + e.getMessage());
+
+            } catch (FileNotFoundException e) {
+                System.out.println("duncan.txt not found, please check the file!! Error: " + e.getMessage());
+            }
+        } else {
+            taskList = new List();
+        }
+
+    }
+
+//-------- methods  ---------------------------
+
+    public static String getFirstWord(String input){
+        String[] parts = input.split("\\s+", 2); // Limit to 2 parts
+        return parts[0];
+    }
+    public static String filterFirstWord(String input){
+        String[] parts = input.split(" ", 2);
+        return parts[1];
     }
 
     public void startQueryLoop() throws DuncanException {
@@ -39,6 +73,9 @@ public class InputParser {
             switch (firstWord) {
             case "bye":
                 isRunning = false;
+
+                // write to file
+                fileSaver.writeTextFile(taskList);
                 break;
             case "list":
                 taskList.showTasks();
@@ -54,7 +91,8 @@ public class InputParser {
             case "mark":
                 // mark a task as done!
                 try{
-                    int taskNumber = Integer.parseInt(userInput.substring(keywordLengthDict.get(firstWord)));
+                    int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT
+                            .get(firstWord)));
                     taskList.markTask(taskNumber);
                 } catch (NumberFormatException e) {
                     System.out.println("Please provide a valid task number!" + e.getMessage());
@@ -62,7 +100,8 @@ public class InputParser {
                 break;
             case "unmark":
                 try{
-                    int taskNumber = Integer.parseInt(userInput.substring(keywordLengthDict.get(firstWord)));
+                    int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT
+                            .get(firstWord)));
                     taskList.unmarkTask(taskNumber);
                 } catch (NumberFormatException e) {
                     System.out.println("Please provide a valid task number!");
@@ -71,7 +110,7 @@ public class InputParser {
                 break;
             case "todo":
                 try{
-                    taskList.addTodo(userInput);
+                    taskList.addTask(filterFirstWord(userInput), "T");
                     System.out.println("You have " + taskList.size() + " tasks.");
                 } catch (NumberFormatException e) {
                     System.out.println("Something went wrong: " + e.getMessage());
@@ -81,7 +120,7 @@ public class InputParser {
                 break;
             case "deadline":
                 try{
-                    taskList.addDeadline(userInput);
+                    taskList.addTask(filterFirstWord(userInput), "D");
                     System.out.println("You have " + taskList.size() + " tasks.");
                 } catch (NumberFormatException e) {
                     System.out.println("Something went wrong: " + e.getMessage());
@@ -91,7 +130,7 @@ public class InputParser {
                 break;
             case "event":
                 try{
-                    taskList.addEvent(userInput);
+                    taskList.addTask(filterFirstWord(userInput), "E");
                     System.out.println("You have " + taskList.size() + " tasks.");
                 } catch (NumberFormatException e) {
                     System.out.println("Something went wrong: " + e.getMessage());
