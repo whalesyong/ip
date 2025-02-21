@@ -82,7 +82,7 @@ public class InputParser {
                 break;
             case "delete":
                 try{
-                    int taskNumber = Integer.parseInt(userInput.substring(keywordLengthDict.get(firstWord)));
+                    int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord)));
                     taskList.deleteTask(taskNumber);
                 } catch (NumberFormatException e) {
                     System.out.println("Please provide a valid task number!");

@@ -38,9 +38,11 @@ public class TextFileSaver {
 
     public void writeTextFile(List list) throws DuncanException {
         ArrayList<Task> taskList = list.getTasks();
-        for (Task task : taskList) {
-            try(BufferedWriter writer = new BufferedWriter(new FileWriter(fullFilePath))){
 
+        // Open the writer once, before the loop
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(fullFilePath))) {
+
+            for (Task task : taskList) {
                 StringBuilder taskInfo = new StringBuilder();
                 taskInfo.append(task.taskLetter)
                         .append(SEPARATOR)
@@ -49,25 +51,23 @@ public class TextFileSaver {
                         .append(task.description);
 
                 // add task specific fields (by, from to)
-                if (task instanceof Deadline){
+                if (task instanceof Deadline) {
                     Deadline deadline = (Deadline)task;
                     taskInfo.append(SEPARATOR)
                             .append(deadline.by);
-                } else if (task instanceof Event){
+                } else if (task instanceof Event) {
                     Event event = (Event)task;
                     taskInfo.append(SEPARATOR)
                             .append(event.from + "--" + event.to);
                 }
 
-                //no other class specific cases
-
                 //write task info
                 writer.write(taskInfo.toString());
                 writer.newLine();
-
-            } catch (IOException e) {
-                throw new DuncanException("You messed up: "+ e.getMessage());
             }
+
+        } catch (IOException e) {
+            throw new DuncanException("You messed up: "+ e.getMessage());
         }
     }
 
