@@ -1,3 +1,2 @@
-[E]|0|friend's birthday party|23 feb 7pm--24 feb 2am
 [T]|0|read book
-[D]|0|return book | 24 feb
+[E]|0|team meeting|7 mar 9am--10am

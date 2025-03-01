@@ -1,4 +1,12 @@
+
+
+
 public class Deadline extends Task {
+
+    //constant variables for symbols and string literals
+    private static final String DEADLINE_FORMAT = " (by: %s)";
+
+
     String by;
 
 
@@ -43,6 +51,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return taskLetter + super.getStatusIcon() + " " + this.description + " (by: " + by + ")";
+        return taskLetter + super.getStatusIcon() + " " + this.description + String.format(DEADLINE_FORMAT, by);
     }
 }

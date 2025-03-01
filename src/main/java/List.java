@@ -64,7 +64,6 @@ public class List {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
         }
-        //System.out.println("size of list: " + tasks.size());
     }
 
     public void markTask(int index) {

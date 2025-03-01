@@ -1,4 +1,8 @@
 public class Event extends Task {
+    //constant variables for symbols and string literals
+    private static final String TIME_RANGE_FORMAT = " (from: %s to: %s)";
+
+
     public String from;
     public String to;
 
@@ -43,6 +47,7 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return taskLetter + super.getStatusIcon() + " " + this.description + " (from: " + from + " to: " + to + ")";
+        return taskLetter + super.getStatusIcon() + " " + this.description + String.format(TIME_RANGE_FORMAT, from, to);
     }
+
 }

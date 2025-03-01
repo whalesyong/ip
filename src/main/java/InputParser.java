@@ -51,6 +51,8 @@ public class InputParser {
 
 //-------- methods  ---------------------------
 
+
+    //public methods
     public static String getFirstWord(String input){
         String[] parts = input.split("\\s+", 2); // Limit to 2 parts
         return parts[0];
@@ -61,11 +63,8 @@ public class InputParser {
     }
 
     public void startQueryLoop() throws DuncanException {
-
         boolean isRunning = true;
         while (isRunning) {
-
-            //gets the first word
             userInput = scanner.nextLine().trim().toLowerCase();
             TextUI.printHorizontalLine();
             String firstWord = userInput.split(" ")[0];
@@ -73,81 +72,64 @@ public class InputParser {
             switch (firstWord) {
             case "bye":
                 isRunning = false;
-
-                // write to file
                 fileSaver.writeTextFile(taskList);
                 break;
             case "list":
                 taskList.showTasks();
                 break;
             case "delete":
-                try{
-                    int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord)));
-                    taskList.deleteTask(taskNumber);
-                } catch (NumberFormatException e) {
-                    System.out.println("Please provide a valid task number!");
-                }
+                handleTaskModification(firstWord, "delete");
                 break;
             case "mark":
-                // mark a task as done!
-                try{
-                    int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT
-                            .get(firstWord)));
-                    taskList.markTask(taskNumber);
-                } catch (NumberFormatException e) {
-                    System.out.println("Please provide a valid task number!" + e.getMessage());
-                }
+                handleTaskModification(firstWord, "mark");
                 break;
             case "unmark":
-                try{
-                    int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT
-                            .get(firstWord)));
-                    taskList.unmarkTask(taskNumber);
-                } catch (NumberFormatException e) {
-                    System.out.println("Please provide a valid task number!");
-                }
-
+                handleTaskModification(firstWord, "unmark");
                 break;
             case "todo":
-                try{
-                    taskList.addTask(filterFirstWord(userInput), "T");
-                    System.out.println("You have " + taskList.size() + " tasks.");
-                } catch (NumberFormatException e) {
-                    System.out.println("Something went wrong: " + e.getMessage());
-                } catch (DuncanException e) {
-
-                }
-                break;
             case "deadline":
-                try{
-                    taskList.addTask(filterFirstWord(userInput), "D");
-                    System.out.println("You have " + taskList.size() + " tasks.");
-                } catch (NumberFormatException e) {
-                    System.out.println("Something went wrong: " + e.getMessage());
-                } catch (DuncanException e) {
-                    System.out.println(e.message);
-                }
-                break;
             case "event":
-                try{
-                    taskList.addTask(filterFirstWord(userInput), "E");
-                    System.out.println("You have " + taskList.size() + " tasks.");
-                } catch (NumberFormatException e) {
-                    System.out.println("Something went wrong: " + e.getMessage());
-                } catch (DuncanException e){
-                    System.out.println( e.message);
-                }
+                handleTaskAddition(firstWord);
                 break;
             default:
-                // not a valid input.
                 System.out.println("what are u saying bro");
-
             }
         }
 
-        //loop has ended
         System.out.println("Bye. Hope to see you again soon!");
         TextUI.printHorizontalLine();
-
     }
+
+    //private methods
+
+    private void handleTaskModification(String firstWord, String action) {
+        try {
+            int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord)));
+            switch (action) {
+            case "delete":
+                taskList.deleteTask(taskNumber);
+                break;
+            case "mark":
+                taskList.markTask(taskNumber);
+                break;
+            case "unmark":
+                taskList.unmarkTask(taskNumber);
+                break;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please provide a valid task number!");
+        }
+    }
+
+    private void handleTaskAddition(String taskType) {
+        try {
+            taskList.addTask(filterFirstWord(userInput), taskType.substring(0, 1).toUpperCase());
+            System.out.println("You have " + taskList.size() + " tasks.");
+        } catch (NumberFormatException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        } catch (DuncanException e) {
+            System.out.println(e.message);
+        }
+    }
+
 }
