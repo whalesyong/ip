@@ -54,7 +54,7 @@ public class InputParser {
 
     //public methods
     public static String getFirstWord(String input){
-        String[] parts = input.split("\\s+", 2); // Limit to 2 parts
+        String[] parts = input.split(" ", 2); // Limit to 2 parts
         return parts[0];
     }
     public static String filterFirstWord(String input){
@@ -73,6 +73,9 @@ public class InputParser {
             case "bye":
                 isRunning = false;
                 fileSaver.writeTextFile(taskList);
+                break;
+            case "find":
+                taskList.findKeyword(filterFirstWord(userInput));
                 break;
             case "list":
                 taskList.showTasks();
