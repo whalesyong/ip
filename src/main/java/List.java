@@ -40,11 +40,11 @@ public class List {
                 + newTask.getStatusIcon()
                 + newTask.description
                 + ((newTask instanceof Deadline)
-                        ? " (" + ((Deadline) newTask).by + ")"
+                        ? " (" + ((Deadline) newTask).getBy() + ")"
                         : ""
                 )
                 + ((newTask instanceof Event)
-                        ? " ( " + ((Event) newTask).from + " to " + ((Event) newTask).to + ")"
+                        ? " ( " + ((Event) newTask).getFrom() + " to " + ((Event) newTask).getTo() + ")"
                         : ""
                 )
         );

@@ -54,7 +54,7 @@ public class InputParser {
 
     //public methods
     public static String getFirstWord(String input){
-        String[] parts = input.split("\\s+", 2); // Limit to 2 parts
+        String[] parts = input.split(" ", 2); // Limit to 2 parts
         return parts[0];
     }
     public static String filterFirstWord(String input){
@@ -101,7 +101,6 @@ public class InputParser {
     }
 
     //private methods
-
     private void handleTaskModification(String firstWord, String action) {
         try {
             int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord)));

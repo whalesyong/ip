@@ -16,5 +16,8 @@ public class TextUI {
     public static void printLogo(){
         System.out.println(DUNCAN_LOGO);
     }
+    public void showError(String message){
+        System.out.println("sum ting wong at: "+ message);
+    }
 
 }

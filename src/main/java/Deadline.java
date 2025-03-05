@@ -1,4 +1,5 @@
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Deadline extends Task {
@@ -6,9 +7,12 @@ public class Deadline extends Task {
     //constant variables for symbols and string literals
     private static final String DEADLINE_FORMAT = " (by: %s)";
 
+    //format to a LocalDate object
+    private CustomDateTime by;
 
-    String by;
-
+    //getters and setters
+    public CustomDateTime getBy() { return by; }
+    public void setBy(CustomDateTime by) { this.by = by; }
 
     // constructors
     public Deadline(String description) throws DuncanException {
@@ -17,7 +21,7 @@ public class Deadline extends Task {
         String[] parts = extractInfo(description);
         super.description = parts[0];
         System.out.println("0:" + parts[0] + "1:" + parts[1]);
-        this.by = parts[1];
+        this.by = DateTimeParser.parseDateTimeString(parts[1]);
     }
     //constructor for initialising from file
     public Deadline(String description, boolean isDone, String by) throws DuncanException {
@@ -28,10 +32,10 @@ public class Deadline extends Task {
         }
         super.description = description;
         super.isDone = isDone;
-        this.by = by;
+        this.by = DateTimeParser.parseDateTimeString(by);
     }
 
-    // Method to extract the 'by' field from the description
+    // helper method to extract the 'by' field from the description
     private String[] extractInfo(String description) throws DuncanException {
         String[] words = description.split(" ");
         if (words.length <= 2) {
