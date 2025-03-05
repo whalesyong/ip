@@ -63,60 +63,58 @@ public class TextFileSaver {
 
     public List readTextFile() throws DuncanException, FileNotFoundException {
         List taskList = new List();
-        boolean isFileEmpty = true; // Flag to check if any tasks are read
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fullFilePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                isFileEmpty = false; // File has at least one line
-
-                String[] taskInfo = line.split(Pattern.quote(SEPARATOR));
-
-                if (taskInfo.length < 3) {
-                    throw new DuncanException("Missing field in line: " + line);
-                }
-
-                // Get info from task
-                String taskLetter = taskInfo[0];
-                boolean isDone = taskInfo[1].equals("1");
-                String description = taskInfo[2];
-
-                Task task = null;
-
-                // Assign task instance based on letter
-                if (taskLetter.equals("[T]")) {
-                    task = new Todo(description, isDone);
-                } else if (taskLetter.equals("[D]")) {
-                    if (taskInfo.length < 4) {
-                        throw new DuncanException("Missing field in line: " + line);
-                    }
-                    String by = taskInfo[3];
-                    task = new Deadline(description, isDone, by);
-                } else if (taskLetter.equals("[E]")) {
-                    if (taskInfo.length < 4) {
-                        throw new DuncanException("Missing 'from' and 'to' fields in line: " + line);
-                    }
-                    String[] times = taskInfo[3].split("--");
-                    if (times.length < 2) {
-                        throw new DuncanException("Missing 'from' and 'to' fields in line: " + line);
-                    }
-                    String from = times[0];
-                    String to = times[1];
-                    task = new Event(description, isDone, from, to);
-                }
-
+                Task task = parseTask(line);
                 if (task != null) {
                     taskList.addTask(task);
-                } else {
-                    throw new DuncanException("No task found for task letter: " + taskLetter);
                 }
             }
             return taskList;
         } catch (IOException e) {
             throw new DuncanException("You messed up: " + e.getMessage());
         }
+    }
 
-        // If no tasks were read (i.e., file was empty), return a new List
+    private Task parseTask(String line) throws DuncanException {
+        String[] taskInfo = line.split(Pattern.quote(SEPARATOR));
+        if (taskInfo.length < 3) {
+            throw new DuncanException("Missing field in line: " + line);
+        }
+
+        String taskLetter = taskInfo[0];
+        boolean isDone = taskInfo[1].equals("1");
+        String description = taskInfo[2];
+
+        switch (taskLetter) {
+        case "[T]":
+            return new Todo(description, isDone);
+        case "[D]":
+            return parseDeadline(taskInfo, line);
+        case "[E]":
+            return parseEvent(taskInfo, line);
+        default:
+            throw new DuncanException("No task found for task letter: " + taskLetter);
+        }
+    }
+
+    private Deadline parseDeadline(String[] taskInfo, String line) throws DuncanException {
+        if (taskInfo.length < 4) {
+            throw new DuncanException("Missing field in line: " + line);
+        }
+        return new Deadline(taskInfo[2], taskInfo[1].equals("1"), taskInfo[3]);
+    }
+
+    private Event parseEvent(String[] taskInfo, String line) throws DuncanException {
+        if (taskInfo.length < 4) {
+            throw new DuncanException("Missing 'from' and 'to' fields in line: " + line);
+        }
+        String[] times = taskInfo[3].split("--");
+        if (times.length < 2) {
+            throw new DuncanException("Missing 'from' and 'to' fields in line: " + line);
+        }
+        return new Event(taskInfo[2], taskInfo[1].equals("1"), times[0], times[1]);
     }
 
 

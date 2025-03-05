@@ -28,9 +28,9 @@ public class List {
         StringBuilder message = new StringBuilder(task.taskLetter + task.getStatusIcon() + task.description);
 
         if (task instanceof Deadline deadline) {
-            message.append(" (").append(deadline.by).append(")");
+            message.append(" (").append(deadline.getBy()).append(")");
         } else if (task instanceof Event event) {
-            message.append(" (").append(event.from).append(" to ").append(event.to).append(")");
+            message.append(" (").append(event.getFrom()).append(" to ").append(event.getFrom()).append(")");
         }
 
         return message.toString();
@@ -95,6 +95,7 @@ public class List {
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).description.toLowerCase().contains(keyword.toLowerCase())) {
                 System.out.println((i + 1) + "." + tasks.get(i));
+                if (!hasEntry) { hasEntry = true; }
             }
         }
 
