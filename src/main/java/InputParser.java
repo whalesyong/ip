@@ -104,7 +104,6 @@ public class InputParser {
     }
 
     //private methods
-
     private void handleTaskModification(String firstWord, String action) {
         try {
             int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord)));

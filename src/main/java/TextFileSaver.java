@@ -2,13 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-
+// class for reading and writing from and to a .txt file.
 public class TextFileSaver {
-    /*
-    * Class that can:
-    * - Save tasks to a text file
-    * - Read tasks from a text file
-    * */
     String directoryPath = "./data";
     String fileName = "/duncan.txt";
     String fullFilePath = directoryPath + File.separator + fileName ;
@@ -17,7 +12,7 @@ public class TextFileSaver {
         return inputBoolean ? "1" : "0";
     }
 
-    //empty constructor for now
+
     public TextFileSaver() {
         // when called, make sure that the directory ./data exists
         File directory = new File(directoryPath);
@@ -38,10 +33,8 @@ public class TextFileSaver {
 
     public void writeTextFile(List list) throws DuncanException {
         ArrayList<Task> taskList = list.getTasks();
-
         // Open the writer once, before the loop
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(fullFilePath))) {
-
             for (Task task : taskList) {
                 StringBuilder taskInfo = new StringBuilder();
                 taskInfo.append(task.taskLetter)
@@ -49,23 +42,20 @@ public class TextFileSaver {
                         .append(boolToNumber(task.isDone()))
                         .append(SEPARATOR)
                         .append(task.description);
-
                 // add task specific fields (by, from to)
                 if (task instanceof Deadline) {
                     Deadline deadline = (Deadline)task;
                     taskInfo.append(SEPARATOR)
-                            .append(deadline.by);
+                            .append(deadline.getBy().toString());
                 } else if (task instanceof Event) {
                     Event event = (Event)task;
                     taskInfo.append(SEPARATOR)
-                            .append(event.from + "--" + event.to);
+                            .append(event.getFrom() + "--" + event.getTo().toString());
                 }
-
                 //write task info
                 writer.write(taskInfo.toString());
                 writer.newLine();
             }
-
         } catch (IOException e) {
             throw new DuncanException("You messed up: "+ e.getMessage());
         }

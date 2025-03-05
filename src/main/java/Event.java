@@ -1,10 +1,17 @@
+import java.time.LocalDateTime;
+
 public class Event extends Task {
-    //constant variables for symbols and string literals
+    // Constant for time format
     private static final String TIME_RANGE_FORMAT = " (from: %s to: %s)";
 
+    private CustomDateTime from;
+    private CustomDateTime to;
 
-    public String from;
-    public String to;
+    //getters and setters
+    public CustomDateTime getFrom() { return from; }
+    public CustomDateTime getTo() { return to; }
+    public void setFrom(CustomDateTime from) { this.from = from; }
+    public void setTo(CustomDateTime to) { this.to = to; }
 
 
     // Constructor with only description (parses /from and /to)
@@ -23,8 +30,8 @@ public class Event extends Task {
         }
         super.description = description;
         super.isDone = isDone;
-        this.from = from;
-        this.to = to;
+        this.from = DateTimeParser.parseDateTimeString(from);
+        this.to = DateTimeParser.parseDateTimeString(to);
     }
 
     // Extracts 'from' and 'to' from the description
@@ -37,17 +44,20 @@ public class Event extends Task {
         super.description = parts[0].trim();
 
         String[] timeParts = parts[1].split("/to", 2);
-        this.from = timeParts[0].trim();
-        this.to = timeParts.length > 1 ? timeParts[1].trim() : "";
+        String fromStr = timeParts[0].trim();
+        String toStr = timeParts.length > 1 ? timeParts[1].trim() : "";
 
-        if (from.isEmpty() || to.isEmpty()) {
+        if (fromStr.isEmpty() || toStr.isEmpty()) {
             throw new DuncanException("Please specify both a start and end time!");
         }
+
+        this.from = DateTimeParser.parseDateTimeString(fromStr);
+        this.to = DateTimeParser.parseDateTimeString(toStr);
     }
 
     @Override
     public String toString() {
-        return taskLetter + super.getStatusIcon() + " " + this.description + String.format(TIME_RANGE_FORMAT, from, to);
+        return taskLetter + super.getStatusIcon() + " " + this.description +
+                String.format(TIME_RANGE_FORMAT, from, to);
     }
-
 }
