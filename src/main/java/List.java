@@ -13,42 +13,29 @@ public class List {
 
     //initialising task with taskLetter
     public void addTask(String description, String taskLetter) throws DuncanException {
-        Task newTask = null;
-        switch (taskLetter) {
-        case "T":
-            // create a todo task
-            newTask = new Todo(description);
-            tasks.add(newTask);
-            break;
-        case "D":
-            //create a deadline
-            newTask = new Deadline(description);
-            tasks.add(newTask);
-            break;
-        case "E":
-            //create an event
-            newTask = new Event(description);
-            tasks.add(newTask);
-            break;
-        default:
-            throw new DuncanException("Invalid task letter");
-        }
-        //print confirmation message
-        System.out.println(
-                "You have an extra thing to do now: \n"
-                + newTask.taskLetter
-                + newTask.getStatusIcon()
-                + newTask.description
-                + ((newTask instanceof Deadline)
-                        ? " (" + ((Deadline) newTask).getBy() + ")"
-                        : ""
-                )
-                + ((newTask instanceof Event)
-                        ? " ( " + ((Event) newTask).getFrom() + " to " + ((Event) newTask).getTo() + ")"
-                        : ""
-                )
-        );
+        Task newTask = switch (taskLetter) {
+            case "T" -> new Todo(description);
+            case "D" -> new Deadline(description);
+            case "E" -> new Event(description);
+            default -> throw new DuncanException("Invalid task letter");
+        };
+
+        tasks.add(newTask);
+        System.out.println("You have an extra thing to do now:\n" + formatTaskMessage(newTask));
     }
+
+    private String formatTaskMessage(Task task) {
+        StringBuilder message = new StringBuilder(task.taskLetter + task.getStatusIcon() + task.description);
+
+        if (task instanceof Deadline deadline) {
+            message.append(" (").append(deadline.by).append(")");
+        } else if (task instanceof Event event) {
+            message.append(" (").append(event.from).append(" to ").append(event.to).append(")");
+        }
+
+        return message.toString();
+    }
+
 
     public void addTask(Task task) throws DuncanException {
         tasks.add(task);
@@ -100,5 +87,19 @@ public class List {
 
     public ArrayList<Task> getTasks() {
         return tasks;
+    }
+
+    public void findKeyword(String keyword) {
+        boolean hasEntry = false;
+        System.out.println("Finding tasks with keyword: " + keyword);
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).description.toLowerCase().contains(keyword.toLowerCase())) {
+                System.out.println((i + 1) + "." + tasks.get(i));
+            }
+        }
+
+        if (!hasEntry) {
+            System.out.println("No tasks with the keyword: " + keyword);
+        }
     }
 }

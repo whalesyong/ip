@@ -74,6 +74,9 @@ public class InputParser {
                 isRunning = false;
                 fileSaver.writeTextFile(taskList);
                 break;
+            case "find":
+                taskList.findKeyword(filterFirstWord(userInput));
+                break;
             case "list":
                 taskList.showTasks();
                 break;
