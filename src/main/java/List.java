@@ -57,7 +57,7 @@ public class List {
         if (task instanceof Deadline deadline) {
             message.append(" (").append(deadline.getBy()).append(")");
         } else if (task instanceof Event event) {
-            message.append(" (").append(event.getFrom()).append(" to ").append(event.getFrom()).append(")");
+            message.append(" (").append(event.getFrom()).append(" to ").append(event.getTo()).append(")");
         }
 
         return message.toString();

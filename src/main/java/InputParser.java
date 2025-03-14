@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 import java.io.*;
@@ -47,7 +48,8 @@ public class InputParser {
                 taskList = fileSaver.readTextFile();
 
             } catch (DuncanException e) {
-                System.out.println("Error reading duncan.txt, please check the file!! Error: " + e.getMessage());
+                System.out.println("Error reading duncan.txt, a new list will be created!! Error: " + e.getMessage());
+                taskList = new List();
 
             } catch (FileNotFoundException e) {
                 System.out.println("duncan.txt not found, please check the file!! Error: " + e.getMessage());
@@ -95,6 +97,9 @@ public class InputParser {
                     isRunning = false;
                     fileSaver.writeTextFile(taskList);
                     break;
+                case "help":
+                    TextUI.printHelpUrl();
+                    break;
                 case "find":
                     taskList.findKeyword(filterFirstWord(userInput));
                     break;
@@ -117,7 +122,7 @@ public class InputParser {
     }
 
     //private methods
-    private void handleTaskModification(String firstWord) {
+    private void handleTaskModification(String firstWord) throws DuncanException {
         try {
             int taskNumber;
             String taskNumberString = userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord));
@@ -128,7 +133,6 @@ public class InputParser {
                 System.out.println("Not a number: " + taskNumberString);
                 return;
             }
-
             switch (firstWord) {
             case "delete":
                 taskList.deleteTask(taskNumber);
@@ -142,6 +146,8 @@ public class InputParser {
             }
         } catch (DuncanException e) {
             System.out.println(e.getMessage());
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new DuncanException(ErrorCode.INVALID_CMD_ARGS_ERR, firstWord);
         }
     }
 

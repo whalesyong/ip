@@ -9,7 +9,6 @@ public class Duncan {
 
 
         System.out.println("Hi! I'm \n" + TextUI.DUNCAN_LOGO);
-        System.out.println("What can I do for you?");
         TextUI.printHorizontalLine();
 
         Scanner scanner = new Scanner(System.in);

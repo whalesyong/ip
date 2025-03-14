@@ -12,6 +12,8 @@ public class TextUI {
 
     public static final String HLINE = "___________________________________________________________";
     public static final String USER_INDENT = ">> ";
+    public static final String HELP_URL = "https://whalesyong.github.io/ip/";
+
     public static void printUserIndent(){ System.out.print(USER_INDENT); }
     public static void printHorizontalLine(){
         System.out.println(HLINE);
@@ -31,5 +33,9 @@ public class TextUI {
     public static void sayBye(){
         System.out.println("Going so fast? :( I'll see you soon then!");
         printHorizontalLine();
+    }
+
+    public static void printHelpUrl(){
+        System.out.println("Help for commands can be found at: "+HELP_URL);
     }
 }
