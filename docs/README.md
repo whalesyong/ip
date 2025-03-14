@@ -1,3 +1,21 @@
+okay. Could you help me create a section at the very top with quick links to each part of the user guide?
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Features](#features)
+   - [Viewing help](#viewing-help-help)
+   - [Adding a to-do](#adding-a-to-do-todo)
+   - [Adding a deadline](#adding-a-deadline-deadline)
+   - [Adding an Event](#adding-an-event-event)
+   - [Deleting Tasks](#deleting-tasks-delete)
+   - [Marking/Unmarking tasks](#markingunmarking-tasks-mark-unmark)
+   - [Listing Tasks](#listing-tasks-list)
+   - [Finding tasks](#finding-tasks-find)
+   - [Exiting the program and Saving the list](#exiting-the-program-and-saving-the-list-bye)
+   - [Editing the data file](#editing-the-data-file)
+   - [Summary of Comands](#summary-of-commands-)
+
 ![Duncan ASCII Art](20250314142043.png)
 
 ## Introduction
@@ -111,11 +129,27 @@ bye
 Of course, he'll be sad to see you go:\
 ![](20250314160949.png)
 
-### Editing the data file.
+### Editing the data file
 The task data is saved upon exit as a `.txt` file. If you are familiar with the format used to save the tasks, you may edit the file.
 
 >  **Exercise caution when editing the file**
 >
 > - If your changes to the data file makes it format invalid, Duncan will discard all data and start with an empty file. Hence, it is advisable to backup the data in the files before editing.
 > - Certain edits may cause unexpected behaviour from Duncan. 
+
+
+### Summary of Commands 
+
+| Action   | Format,                                    | Examples                                                                                                                     |
+| -------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| todo     | `todo <TASK NAME>`                         | `todo read book`                                                                                                             |
+| deadline | `deadline <TASK NAME> /by <TIME>`          | `deadline CS2113 quiz /by 14/3/2025 2359`,`deadline CS2113 quiz /by tomorrow`                                                |
+| event    | `event <TASK NAME> /from <TIME> /to <TIME>` | `event CS2113 lecture /from 14/3/2025 1600 /to 14/3/2025 1800`, `event CS2113 lecture /from tomorrow 1600 /to tomorrow 1800` |
+| delete   | `delete <TASK NUMBER>`                     | `delete 1`                                                                                                                   |
+| mark     | `mark <TASK NUMBER>`                       | `mark 1`                                                                                                                     |
+| unmark   | `unmark <TASK NUMBER>`                     | `unmark 1`                                                                                                                   |
+| list     | `list`                                     |                                                                                                                              |
+| find     | `find <KEYWORD>`                           | `find cs2113`                                                                                                                |
+| bye      |                                            |                                                                                                                              |
+
 
