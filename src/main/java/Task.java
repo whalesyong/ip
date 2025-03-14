@@ -1,6 +1,11 @@
 import java.util.Arrays;
 
-// super class for different tasks
+
+/**
+ * Abstract class representing a task. This class serves as the base for all task types.
+ * Subclasses must implement specific task-related functionality.
+ */
+
 public abstract class Task {
     /*
      Abstract class implementation of all tasks. Must be overriden

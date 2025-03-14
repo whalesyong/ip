@@ -1,8 +1,10 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
-//custom date time class for usage with duncan.
+/**
+ * A subclass of {@link CustomDate} that adds functionality for handling {@link LocalDateTime}.
+ * Provides custom formatting for date-time representation.
+ */
 public class CustomDateTime extends CustomDate {
 
     public CustomDateTime(LocalDateTime dateTime) {

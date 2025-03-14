@@ -14,8 +14,9 @@ public class Duncan {
 
         Scanner scanner = new Scanner(System.in);
         InputParser duncanInputParser = new InputParser(scanner);
+        TextUI.greetUser();
         duncanInputParser.startQueryLoop();
-
+        TextUI.sayBye();
 
     }
 }

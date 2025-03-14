@@ -2,7 +2,10 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-// implements wrapper class for LocalDate.
+/**
+ * A wrapper class for {@link LocalDateTime} that provides custom date-related functionalities.
+ * This class wraps a {@link LocalDateTime} and overrides toString().
+ */
 public class CustomDate {
     protected final LocalDateTime dateTime;
 

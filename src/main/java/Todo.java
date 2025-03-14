@@ -19,7 +19,7 @@ public class Todo extends Task {
     // Validates the description
     private String validateDescription(String description) throws DuncanException {
         if (description == null || description.trim().isEmpty()) {
-            throw new DuncanException("Usage: todo <task description>");
+            throw new DuncanException(ErrorCode.USAGE_ERR_TODO);
         }
         return description.trim();
     }

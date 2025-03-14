@@ -57,7 +57,7 @@ public class TextFileSaver {
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new DuncanException("You messed up: "+ e.getMessage());
+            throw new DuncanException(ErrorCode.IO_FILE_WRITE_ERR, e.getMessage());
         }
     }
 
@@ -73,14 +73,14 @@ public class TextFileSaver {
             }
             return taskList;
         } catch (IOException e) {
-            throw new DuncanException("You messed up: " + e.getMessage());
+            throw new DuncanException(ErrorCode.IO_FILE_READ_ERR, e.getMessage());
         }
     }
 
     private Task parseTask(String line) throws DuncanException {
         String[] taskInfo = line.split(Pattern.quote(SEPARATOR));
         if (taskInfo.length < 3) {
-            throw new DuncanException("Missing field in line: " + line);
+            throw new DuncanException(ErrorCode.IO_INVALID_TASK_ERR ,line);
         }
 
         String taskLetter = taskInfo[0];
@@ -95,24 +95,24 @@ public class TextFileSaver {
         case "[E]":
             return parseEvent(taskInfo, line);
         default:
-            throw new DuncanException("No task found for task letter: " + taskLetter);
+            throw new DuncanException(ErrorCode.IO_INVALID_TASK_ERR, line);
         }
     }
 
     private Deadline parseDeadline(String[] taskInfo, String line) throws DuncanException {
         if (taskInfo.length < 4) {
-            throw new DuncanException("Missing field in line: " + line);
+            throw new DuncanException(ErrorCode.IO_INVALID_TASK_ERR ,line);
         }
         return new Deadline(taskInfo[2], taskInfo[1].equals("1"), taskInfo[3]);
     }
 
     private Event parseEvent(String[] taskInfo, String line) throws DuncanException {
         if (taskInfo.length < 4) {
-            throw new DuncanException("Missing 'from' and 'to' fields in line: " + line);
+            throw new DuncanException(ErrorCode.IO_INVALID_TASK_ERR, line);
         }
         String[] times = taskInfo[3].split("--");
         if (times.length < 2) {
-            throw new DuncanException("Missing 'from' and 'to' fields in line: " + line);
+            throw new DuncanException(ErrorCode.IO_INVALID_TASK_ERR, line);
         }
         return new Event(taskInfo[2], taskInfo[1].equals("1"), times[0], times[1]);
     }

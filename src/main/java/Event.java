@@ -1,5 +1,8 @@
 import java.time.LocalDateTime;
-
+/**
+ * Represents an event with a start time and end time. Inherits from {@link Task}.
+ * Provides functionality for setting, parsing, and displaying event details.
+ */
 public class Event extends Task {
     // Constant for time format
     private static final String TIME_RANGE_FORMAT = " (from: %s to: %s)";
@@ -15,6 +18,12 @@ public class Event extends Task {
 
 
     // Constructor with only description (parses /from and /to)
+    /**
+     * Constructs an {@link Event} with the specified description, and parses the start and end times.
+     *
+     * @param description The description of the event, including "/from" and "/to" fields.
+     * @throws DuncanException If there are errors in parsing or invalid fields.
+     */
     public Event(String description) throws DuncanException {
         super(description);
         super.taskLetter = "[E]";
@@ -22,11 +31,20 @@ public class Event extends Task {
     }
 
     // Constructor with explicit description, from, and to
+    /**
+     * Constructs an {@link Event} with the specified description, completion status, and start and end times.
+     *
+     * @param description The description of the event.
+     * @param isDone The completion status of the event.
+     * @param from The start time as a string.
+     * @param to The end time as a string.
+     * @throws DuncanException If there are errors in parsing or invalid fields.
+     */
     public Event(String description, boolean isDone, String from, String to) throws DuncanException {
         super(description);
         super.taskLetter = "[E]";
         if (from == null || from.trim().isEmpty() || to == null || to.trim().isEmpty()) {
-            throw new DuncanException("Please specify both a start and end time!");
+            throw new DuncanException(ErrorCode.USAGE_ERR_EVENT_INVALID);
         }
         super.description = description;
         super.isDone = isDone;
@@ -37,7 +55,7 @@ public class Event extends Task {
     // Extracts 'from' and 'to' from the description
     private void extractFromTo(String description) throws DuncanException {
         if (!description.contains("/from") || !description.contains("/to")) {
-            throw new DuncanException("Usage: event <event description> /from <event from> /to <event to>");
+            throw new DuncanException(ErrorCode.USAGE_ERR_EVENT_INVALID);
         }
 
         String[] parts = description.split("/from", 2);
@@ -48,7 +66,7 @@ public class Event extends Task {
         String toStr = timeParts.length > 1 ? timeParts[1].trim() : "";
 
         if (fromStr.isEmpty() || toStr.isEmpty()) {
-            throw new DuncanException("Please specify both a start and end time!");
+            throw new DuncanException(ErrorCode.USAGE_ERR_EVENT_TIME_MISSING);
         }
 
         this.from = DateTimeParser.parseDateTimeString(fromStr);

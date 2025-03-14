@@ -2,11 +2,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.io.*;
 
+
+/**
+ * The InputParser class handles user input, continuously prompting for input
+ * and processing commands. It interacts with the task list and performs various actions
+ * like marking, unmarking, deleting tasks, and adding new ones.
+ */
 public class InputParser {
-    /*
-    * Input Parser class for Duncan. Takes in a scanner, and continuously
-    * asks user for input.
-    * */
+
 //-------- attributes ---------------------------
     //Maps keywords to their associated length
     final Map<String, Integer> KEYWORD_LENGTH_DICT
@@ -27,6 +30,12 @@ public class InputParser {
     TextFileSaver fileSaver;
 //-------- constructor  ---------------------------
 
+    /**
+     * Constructs an InputParser object, initializing the scanner and loading
+     * the task list from the data file if it exists.
+     *
+     * @param scanner The scanner used to read user input.
+     */
     public InputParser(Scanner scanner) {
         this.scanner = scanner;
 
@@ -57,57 +66,70 @@ public class InputParser {
         String[] parts = input.split(" ", 2); // Limit to 2 parts
         return parts[0];
     }
-    public static String filterFirstWord(String input){
+    public static String filterFirstWord(String input) throws DuncanException {
+
         String[] parts = input.split(" ", 2);
+        if (parts.length <= 1 ) {
+            throw new DuncanException(ErrorCode.INVALID_CMD_ARGS_ERR, parts[0]);
+
+        }
         return parts[1];
     }
 
+    /**
+     * Starts the input query loop, processing user commands until "bye" is entered.
+     * Handles task additions, modifications, and deletions.
+     *
+     * @throws DuncanException If there is an error processing a command.
+     */
     public void startQueryLoop() throws DuncanException {
         boolean isRunning = true;
         while (isRunning) {
+            TextUI.printUserIndent();
             userInput = scanner.nextLine().trim().toLowerCase();
             TextUI.printHorizontalLine();
             String firstWord = userInput.split(" ")[0];
-
-            switch (firstWord) {
-            case "bye":
-                isRunning = false;
-                fileSaver.writeTextFile(taskList);
-                break;
-            case "find":
-                taskList.findKeyword(filterFirstWord(userInput));
-                break;
-            case "list":
-                taskList.showTasks();
-                break;
-            case "delete":
-                handleTaskModification(firstWord, "delete");
-                break;
-            case "mark":
-                handleTaskModification(firstWord, "mark");
-                break;
-            case "unmark":
-                handleTaskModification(firstWord, "unmark");
-                break;
-            case "todo":
-            case "deadline":
-            case "event":
-                handleTaskAddition(firstWord);
-                break;
-            default:
-                System.out.println("what are u saying bro");
+            try {
+                switch (firstWord) {
+                case "bye":
+                    isRunning = false;
+                    fileSaver.writeTextFile(taskList);
+                    break;
+                case "find":
+                    taskList.findKeyword(filterFirstWord(userInput));
+                    break;
+                case "list":
+                    taskList.showTasks();
+                    break;
+                case "delete", "mark", "unmark":
+                    handleTaskModification(firstWord);
+                    break;
+                case "todo", "deadline", "event":
+                    handleTaskAddition(firstWord);
+                    break;
+                default:
+                    System.out.println("Not a command: '" + firstWord + "'! stop.");
+                }
+            } catch (DuncanException e) {
+                System.out.println(e.getMessage());
             }
         }
-
-        System.out.println("Bye. Hope to see you again soon!");
-        TextUI.printHorizontalLine();
     }
 
     //private methods
-    private void handleTaskModification(String firstWord, String action) {
+    private void handleTaskModification(String firstWord) {
         try {
-            int taskNumber = Integer.parseInt(userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord)));
-            switch (action) {
+            int taskNumber;
+            String taskNumberString = userInput.substring(KEYWORD_LENGTH_DICT.get(firstWord));
+
+            try{
+                taskNumber = Integer.parseInt(taskNumberString);
+            } catch (NumberFormatException e) {
+                System.out.println("Not a number: " + taskNumberString);
+                return;
+            }
+
+            switch (firstWord) {
             case "delete":
                 taskList.deleteTask(taskNumber);
                 break;
@@ -118,8 +140,8 @@ public class InputParser {
                 taskList.unmarkTask(taskNumber);
                 break;
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Please provide a valid task number!");
+        } catch (DuncanException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -127,10 +149,8 @@ public class InputParser {
         try {
             taskList.addTask(filterFirstWord(userInput), taskType.substring(0, 1).toUpperCase());
             System.out.println("You have " + taskList.size() + " tasks.");
-        } catch (NumberFormatException e) {
-            System.out.println("Something went wrong: " + e.getMessage());
         } catch (DuncanException e) {
-            System.out.println(e.message);
+            System.out.println(e.getMessage());
         }
     }
 
