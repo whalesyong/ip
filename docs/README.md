@@ -63,10 +63,10 @@ Deletes a specified task from the list by its number.
 ```
 delete <TASK NUMBER>
 ```
-If we had a list as such:
-![](20250314155408.png)
-We could delete the **first** entry by doing `delete 1`:
-![](20250314155737.png)
+If we had a list as such:\
+![](20250314155408.png)\
+We could delete the **first** entry by doing `delete 1`:\
+![](20250314155737.png)\
 **Examples**
 1. `delete 1`
 ### Marking/Unmarking tasks: `mark`/ `unmark`
@@ -75,12 +75,12 @@ Mark or unmark a specified task in the list by its number.
 mark <TASK NUMBER>
 unmark <TASK NUMBER>
 ```
-If we had a list as such:
-![](20250314160642.png)
-We could mark the **first** entry by doing `mark 1`:
-![](20250314160828.png)
-We can unmark the task that we just marked:
-![](20250314160838.png)
+If we had a list as such: \
+![](20250314160642.png)\
+We could mark the **first** entry by doing `mark 1`:\
+![](20250314160828.png)\
+We can unmark the task that we just marked:\
+![](20250314160838.png)\
 **Examples**
 1. `mark 1`
 2. `unmark 1`
@@ -96,10 +96,10 @@ Finds all tasks in your list that match the specific keyword provided.
 ```
 find <KEYWORD>
 ```
-If you had a few tasks:
-![](20250314155408.png)
-And you just wanted all tasks with `cs2113`:
-![](20250314155501.png)
+If you had a few tasks:\
+![](20250314155408.png)\
+And you just wanted all tasks with `cs2113`:\
+![](20250314155501.png)\
 **Examples**
 1. `find cs2113`
 
@@ -108,7 +108,7 @@ Save and exit the program by saying bye to Duncan!
 ```
 bye
 ```
-Of course, he'll be sad to see you go:
+Of course, he'll be sad to see you go:\
 ![](20250314160949.png)
 
 ### Editing the data file.
