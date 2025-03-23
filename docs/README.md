@@ -1,4 +1,4 @@
-okay. Could you help me create a section at the very top with quick links to each part of the user guide?
+# Duncan User Guide
 
 ## Table of Contents
 - [Introduction](#introduction)
